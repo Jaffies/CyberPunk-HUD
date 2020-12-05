@@ -6,9 +6,10 @@
 	[
 		"*.psd",
 		"*.vcproj",
-		"*.svn*"
-		"*.md"
-		"*.gitattributes"
+		"*.svn*",
+		"*.md",
+		"*.git*",
+		"*.gitattributes",
 		"LICENSE"
 	]
 }
