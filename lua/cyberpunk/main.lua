@@ -4,18 +4,20 @@ CYBERPUNKHEALTH = 100
 CYBERPUNKHEALBARHEALTH = nil
 CYBERPUNKHEALBARHEALTHOLD = nil
 CYBERPUNK_SUITPOWER = 0
-local enable = {
-	CHudGMod = true,
-	CHudChat = true,
-	CHudCrosshair = true,
-	CHudMenu = true,
-	CHudMessage = true,
-	NetGraph = true,
-	CHudTrain = true,
-	CHudVehicle = true,
+local disable = {
+	CHudAmmo = true,
+	CHudBattery = true,
+	CHudDamageIndicator = true,
+	CHudHealth = true,
+	CHudPoisonDamageIndicator = true,
+	CHudSecondaryAmmo = true,
+	CHudSquadStatus = true,
+	CHudZoom = true,
+	CHudWeaponSelection = true,
+	CHudSuitPower = true
 }
 hook.Add("HUDShouldDraw", "CyberPunkShould", function(hud)
-	return tobool(enable[hud])
+	return not diable[hud]
 end)
 hook.Add("DoAnimationEvent", "CyberPunkFire", function(ply, pos, ang, event, name)
 	if pos == 0 and ply == LocalPlayer() then
