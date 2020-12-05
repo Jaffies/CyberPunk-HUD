@@ -17,7 +17,7 @@ local disable = {
 	CHudSuitPower = true
 }
 hook.Add("HUDShouldDraw", "CyberPunkShould", function(hud)
-	return not diable[hud]
+	return not disable[hud]
 end)
 hook.Add("DoAnimationEvent", "CyberPunkFire", function(ply, pos, ang, event, name)
 	if pos == 0 and ply == LocalPlayer() then
