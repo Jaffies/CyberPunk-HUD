@@ -235,7 +235,8 @@ end
 function CyberPunk.LandMarkConvert(tab1)
 	local tab = {}
 	for k, v in pairs(tab1) do
-		if k > 32 then break end 
+		if k > 32 then break end
+		if v:GetClass() == "npc_turret_floor" and v:GetAngles()[3] > 60 then continue end
 		table.insert(tab, {
 			color = CyberPunk.RadarEntColor(v),
 			angle = ( v:GetPos() - EyePos() ):Angle().y - EyeAngles().y,
