@@ -1,0 +1,11 @@
+{
+	"title"		:	"CyberPunk HUD",
+	"type"		:	"effects",
+	"tags"		:	[ "movie", "scenic" ],
+	"ignore"	:
+	[
+		"*.psd",
+		"*.vcproj",
+		"*.svn*"
+	]
+}
