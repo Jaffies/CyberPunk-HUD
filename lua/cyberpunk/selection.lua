@@ -3,7 +3,7 @@ CyberPunk = CyberPunk or {}
 CP_MOVE_UP = true
 CP_MOVE_DOWN = false
 hook.Add("CreateMove", "CyberPunkMove", function(cmd)
-	if ( cmd:GetMouseWheel() != 0 ) and !cmd:KeyDown(IN_WEAPON1) and !cmd:KeyDown(IN_WEAPON2) and !cmd:KeyDown(IN_ATTACK) and !cmd:KeyDown(IN_ATTACK2) then
+	if ( cmd:GetMouseWheel() != 0 ) and !cmd:KeyDown(IN_WEAPON1) and !cmd:KeyDown(IN_WEAPON2) and !cmd:KeyDown(IN_ATTACK) and !cmd:KeyDown(IN_ATTACK2) and !GetConVar("cb_selection"):GetBool() then
 		cmd:SelectWeapon(CyberPunk.WeaponsMove(cmd:GetMouseWheel() > 0))
 	end
 end)
