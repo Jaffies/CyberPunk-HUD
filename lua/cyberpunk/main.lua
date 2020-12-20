@@ -66,6 +66,7 @@ hook.Add("Think", "CyberPunkThink", function()
 	end
 end)
 hook.Add("HUDPaint", "CyberPunkPaint", function()
+	if !GetConVar("cb_enable"):GetBool() then return end
 	if #GetConVar("cb_radartext"):GetString() == 0 and CYBERPUNK_LASTDMG.time - CurTime() > 0 and CYBERPUNK_LASTDMG.shoot - CurTime() > 0 then
 		CyberPunk.SetRadarState("COMBAT", Color(245, 86, 83), Color(0, 0, 0), 11, -2)
 	elseif #GetConVar("cb_radartext"):GetString() > 0 then

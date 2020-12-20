@@ -15,6 +15,7 @@ else
 	AddCSLuaFile("cyberpunk/weaponbar.lua")
 	AddCSLuaFile("cyberpunk/selection.lua")
 end
+CreateConVar( "cb_enable", 1, FCVAR_ARCHIVE, "Enables CyberPunk-HUD. Default is 1", 0, 1 )
 CreateConVar( "cb_selection", 0, FCVAR_ARCHIVE, "Enables default selection menu Default is 0.", 0, 1 )
 CreateConVar( "cb_drawdead", 0, FCVAR_ARCHIVE, "Controls drawing hud while you dead. Default is 0.", 0, 1 )
 CreateConVar( "cb_radartext", "", FCVAR_ARCHIVE, "Controls drawing radar text. Leave it blank if you want default text")
