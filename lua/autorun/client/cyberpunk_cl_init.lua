@@ -9,6 +9,7 @@ hook.Add("PopulateToolMenu", "CyberPunkPopulate", function() // Наполняе
 		panel:CheckBox("Enable Silverhand mode", "cb_johnny")
 		panel:CheckBox("Default weapon selection", "cb_selection")
 		panel:CheckBox("Enable weapon's icons", "cb_icon")
+		panel:CheckBox("Enable new radar style", "cb_radar")
 		panel:CheckBox("Enable drawing HUD while death", "cb_drawdead")
 	end)
 end)
