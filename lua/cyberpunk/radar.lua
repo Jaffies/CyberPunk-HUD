@@ -98,7 +98,7 @@ function CyberPunk.DrawOldRadar(table1)
 		if CYBERPUNK_RADAR_STATE.time == nil or CYBERPUNK_RADAR_STATE.time < CurTime() and CYBERPUNK_RADAR_STATE.time != -1 and CYBERPUNK_RADAR_STATE.time != -2 then
 			surface.SetFont("Robotron" .. tostring(CYBERPUNK_RADAR_STATE_PUBLIC.size))
 			local size1, size2 = surface.GetTextSize(CYBERPUNK_RADAR_STATE_PUBLIC.state)
-			draw.RoundedBoxEx(math.max( size2, size1 ), width(0.93) - size1, height(0.225) -size2, width(0.018604319) +size1, height(0.0200416) + size2, CyberPunk.GetColor(1), true)
+			draw.RoundedBoxEx(math.max( size2, size1 ), width(0.93) - size1, height(0.225) -size2, width(0.018604319) +size1, height(0.0200416) + size2, CyberPunk.GetColor(2), true)
 			draw.SimpleText(CYBERPUNK_RADAR_STATE_PUBLIC.state, "Robotron" .. tostring(CYBERPUNK_RADAR_STATE_PUBLIC.size), width(0.935)  - size1, height(0.22884375)  - size2, CYBERPUNK_RADAR_STATE_PUBLIC.color1)
 			draw.SimpleText(CYBERPUNK_RADAR_STATE_PUBLIC.state, "RobotronBlury" .. tostring(CYBERPUNK_RADAR_STATE_PUBLIC.size), width(0.935)  - size1, height(0.22884375) - size2, Color(CYBERPUNK_RADAR_STATE_PUBLIC.color1.r - 40, CYBERPUNK_RADAR_STATE_PUBLIC.color1.g - 40, CYBERPUNK_RADAR_STATE_PUBLIC.color1.b - 40, CYBERPUNK_RADAR_STATE_PUBLIC.color1.a))
 		else
