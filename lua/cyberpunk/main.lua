@@ -138,7 +138,7 @@ hook.Add("HUDPaint", "CyberPunkPaint", function()
 		local color = team.GetColor(LocalPlayer():Team())
 		CyberPunk.SetRadarState(job, Color(color.r+sin, color.g+sin, color.b+sin), Color(0, 0, 0), math.floor((12 / 768) * ScrH()), -2)
 	else
-		if GetConVar("cb_radartext"):GetString() != "" and CYBERPUNK_LASTDMG.time - CurTime() > 0 and CYBERPUNK_LASTDMG.shoot - CurTime() > 0 then
+		if GetConVar("cb_radartext"):GetString() == "" and CYBERPUNK_LASTDMG.time - CurTime() > 0 and CYBERPUNK_LASTDMG.shoot - CurTime() > 0 then
 			CyberPunk.SetRadarState("COMBAT", CyberPunk.GetColor(1), Color(0, 0, 0), math.floor((12 / 768) * ScrH()), -2)
 		elseif GetConVar("cb_radartext"):GetString() != "" then
 			CyberPunk.SetRadarState(GetConVar("cb_radartext"):GetString(), Color(GetConVar("cb_radarcolorr"):GetInt(), GetConVar("cb_radarcolorg"):GetInt(), GetConVar("cb_radarcolorb"):GetInt()), Color(GetConVar("cb_radarcolor1r"):GetInt(), GetConVar("cb_radarcolor1g"):GetInt(), GetConVar("cb_radarcolor1b"):GetInt()), GetConVar("cb_radartextsize"):GetInt(), -2)
