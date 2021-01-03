@@ -130,16 +130,16 @@ hook.Add("HUDPaint", "CyberPunkPaint", function()
 	if engine.ActiveGamemode() == "terrortown" then
 		local color = GAMEMODE.round_state != ROUND_ACTIVE and Color(100,100,100) or LocalPlayer():GetTraitor() and Color(200, 25, 25) or LocalPlayer():GetDetective() and Color(25, 25, 200) or Color(25, 200, 25)
 		local name = GAMEMODE.round_state != ROUND_ACTIVE and "No round" or LocalPlayer():GetTraitor() and "Traitor" or LocalPlayer():GetDetective() and "Detective" or "Innocent"
-		CyberPunk.SetRadarState(name, color, Color(0, 0, 0), math.floor(12 / 768) * ScrH(), -2)
+		CyberPunk.SetRadarState(name, color, Color(0, 0, 0), math.floor((12 / 768) * ScrH()), -2)
 	elseif engine.ActiveGamemode() == "darkrpbase" or engine.ActiveGamemode() == "darkrp" then
 		local job = isfunction(ply.GetJobName) and LocalPlayer():GetJobName() or isfunction(ply.GetJob) and LocalPlayer():GetJob() or isfunction(ply.GetDarkRPVar) and LocalPlayer():GetDarkRPVar("job") or LocalPlayer():getDarkRPVar("job")
 		local wanted = isfunction(ply.GetWanted) and LocalPlayer():GetWanted() or isfunction(ply.GetDarkRPVar) and LocalPlayer():GetDarkRPVar "wanted" or isfunction(ply.getDarkRPVar) and LocalPlayer():getDarkRPVar "wanted" or false
 		local sin = wanted and math.sin(CurTime()*2) * 100 or 0
 		local color = team.GetColor(LocalPlayer():Team())
-		CyberPunk.SetRadarState(job, Color(color.r+sin, color.g+sin, color.b+sin), Color(0, 0, 0), math.floor(12 / 768) * ScrH(), -2)
+		CyberPunk.SetRadarState(job, Color(color.r+sin, color.g+sin, color.b+sin), Color(0, 0, 0), math.floor((12 / 768) * ScrH()), -2)
 	else
 		if GetConVar("cb_radartext"):GetString() != "" and CYBERPUNK_LASTDMG.time - CurTime() > 0 and CYBERPUNK_LASTDMG.shoot - CurTime() > 0 then
-			CyberPunk.SetRadarState("COMBAT", CyberPunk.GetColor(1), Color(0, 0, 0), math.floor(12 / 768) * ScrH(), -2)
+			CyberPunk.SetRadarState("COMBAT", CyberPunk.GetColor(1), Color(0, 0, 0), math.floor((12 / 768) * ScrH()), -2)
 		elseif GetConVar("cb_radartext"):GetString() != "" then
 			CyberPunk.SetRadarState(GetConVar("cb_radartext"):GetString(), Color(GetConVar("cb_radarcolorr"):GetInt(), GetConVar("cb_radarcolorg"):GetInt(), GetConVar("cb_radarcolorb"):GetInt()), Color(GetConVar("cb_radarcolor1r"):GetInt(), GetConVar("cb_radarcolor1g"):GetInt(), GetConVar("cb_radarcolor1b"):GetInt()), GetConVar("cb_radartextsize"):GetInt(), -2)
 		end
