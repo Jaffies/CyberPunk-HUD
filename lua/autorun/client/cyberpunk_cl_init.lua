@@ -11,5 +11,9 @@ hook.Add("PopulateToolMenu", "CyberPunkPopulate", function() // Наполняе
 		panel:CheckBox("Enable weapon's icons", "cb_icon")
 		panel:CheckBox("Enable new radar style", "cb_radar")
 		panel:CheckBox("Enable drawing HUD while death", "cb_drawdead")
+		if engine.ActiveGamemode() == "darkrpbase" or engine.ActiveGamemode() == "darkrp" then
+			panel:CheckBox("Color pallete by job color", "cb_jobcolor")
+			panel:ControlHelp("This is DarkRP only checkbox, it allows you to ovveride HUD's color pallete with your job color")
+		end
 	end)
 end)

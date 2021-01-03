@@ -6,16 +6,20 @@ CYBERPUNKHEALBARHEALTHOLD = nil
 CYBERPUNK_SUITPOWER = 0
 CYBERPUNK_OPENED = false
 local disable = {
-	CHudAmmo = true,
-	CHudBattery = true,
-	CHudDamageIndicator = true,
-	CHudHealth = true,
-	CHudPoisonDamageIndicator = true,
-	CHudSecondaryAmmo = true,
-	CHudSquadStatus = true,
-	CHudZoom = true,
-	CHudWeaponSelection = true,
-	CHudSuitPower = true
+    ['CHudHealth'] =true,
+    ['CHudBattery'] =true,
+    ['CHudSuitPower'] =true,
+    ['CHudAmmo'] =true,
+    ['CHudSecondaryAmmo'] =true,
+    ['DarkRP_LocalPlayerHUD'] =true,
+    ['DarkRP_Hungermod'] =true,
+    ['DarkRP_LockdownHUD'] =true,
+    ['CHudVoiceSelfStatus'] =true,
+    ['CHudVoiceStatus'] =true,
+    ['CHudWeaponSelection'] =true,
+    ['DarkRP_Agenda'] = true,
+    ['TTTInfoPanel'] = true,
+    ['TTTVoice'] = true,
 }
 hook.Add("HUDShouldDraw", "CyberPunkShould", function(hud)
 	if !GetConVar("cb_enable"):GetBool() then return end
@@ -29,13 +33,37 @@ end)
 hook.Add("DrawDeathNotice", "CyberPunkNotice", function()
 	return false
 end)
+local plymeta = FindMetaTable("Player")
+function plymeta:drawPlayerInfo() return end
 function CyberPunk.GetColor(int)
-	if int == 1 then -- RED
-		return GetConVar("cb_johnny"):GetBool() and Color(234, 242, 114) or Color(237, 119, 90)
-	elseif int == 2 then -- BLUE
-		return GetConVar("cb_johnny"):GetBool() and Color(35, 87, 183) or Color(108, 232, 242)
-	elseif int == 3 then
-		return GetConVar("cb_johnny"):GetBool() and Color(146, 227, 213) or Color(235, 196, 61)
+	if engine.ActiveGamemode() == "darkrpbase" or engine.ActiveGamemode() == "darkrp" then
+		local ply = FindMetaTable("Player")
+		local wanted = isfunction(ply.GetWanted) and LocalPlayer():GetWanted() or isfunction(ply.GetDarkRPVar) and LocalPlayer():GetDarkRPVar "wanted" or LocalPlayer():getDarkRPVar "wanted"
+		local sin = wanted and math.sin(CurTime()*2) * 100 or 0
+		if GetConVar("cb_jobcolor"):GetBool() then
+			local col = team.GetColor(LocalPlayer():Team())
+			local col1 = Color(col.r+sin, col.g+sin, col.b+sin)
+			local col2 = Color(255-col.r+sin, 255-col.g+sin, 255-col.b+sin)
+			local col3 = Color(col.g+sin, col.b+sin, col.r+sin)
+			if int == 1 then return col1 end
+			if int == 2 then return col2 end
+			if int == 3 then return col3 end
+		end
+		if int == 1 then -- RED
+			return GetConVar("cb_johnny"):GetBool() and Color(234+sin, 242+sin, 114+sin) or Color(237+sin, 119+sin, 90+sin)
+		elseif int == 2 then -- BLUE
+			return GetConVar("cb_johnny"):GetBool() and Color(35+sin, 87+sin, 183+sin) or Color(108+sin, 232+sin, 242+sin)
+		elseif int == 3 then
+			return GetConVar("cb_johnny"):GetBool() and Color(146+sin, 227+sin, 213+sin) or Color(235+sin, 196+sin, 61+sin)
+		end
+	else
+		if int == 1 then -- RED
+			return GetConVar("cb_johnny"):GetBool() and Color(234, 242, 114) or Color(237, 119, 90)
+		elseif int == 2 then -- BLUE
+			return GetConVar("cb_johnny"):GetBool() and Color(35, 87, 183) or Color(108, 232, 242)
+		elseif int == 3 then
+			return GetConVar("cb_johnny"):GetBool() and Color(146, 227, 213) or Color(235, 196, 61)
+		end
 	end
 end
 function height(y)
@@ -82,12 +110,32 @@ function surface.PlaySound(snd) -- Made for detecting venty's cyberhacks menu op
 	if snd == "venty/cyberact.mp3" then CYBERPUNK_OPENED = !CYBERPUNK_OPENED end
 	sound(snd)
 end
+local bg_colors = { -- TTT support
+   noround = Color(100,100,100,200),
+   traitor = Color(200, 25, 25, 200),
+   innocent = Color(25, 200, 25, 200),
+   detective = Color(25, 25, 200, 200)
+};
+RunConsoleCommand("ttt_weaponswitcher_fast", 1)
 hook.Add("HUDPaint", "CyberPunkPaint", function()
+	local ply = FindMetaTable("Player")
 	if !GetConVar("cb_enable"):GetBool() or CYBERPUNK_OPENED then return end
-	if #GetConVar("cb_radartext"):GetString() == 0 and CYBERPUNK_LASTDMG.time - CurTime() > 0 and CYBERPUNK_LASTDMG.shoot - CurTime() > 0 then
-		CyberPunk.SetRadarState("COMBAT", CyberPunk.GetColor(1), Color(0, 0, 0), (12 / 768) * ScrH(), -2)
-	elseif GetConVar("cb_radartext"):GetString() != "" then
-		CyberPunk.SetRadarState(GetConVar("cb_radartext"):GetString(), Color(GetConVar("cb_radarcolorr"):GetInt(), GetConVar("cb_radarcolorg"):GetInt(), GetConVar("cb_radarcolorb"):GetInt()), Color(GetConVar("cb_radarcolor1r"):GetInt(), GetConVar("cb_radarcolor1g"):GetInt(), GetConVar("cb_radarcolor1b"):GetInt()), GetConVar("cb_radartextsize"):GetInt(), -2)
+	if engine.ActiveGamemode() == "terrortown" then
+		local color = GAMEMODE.round_state != ROUND_ACTIVE and Color(100,100,100) or LocalPlayer():GetTraitor() and Color(200, 25, 25) or LocalPlayer():GetDetective() and Color(25, 25, 200) or Color(25, 200, 25)
+		local name = GAMEMODE.round_state != ROUND_ACTIVE and "No round" or LocalPlayer():GetTraitor() and "Traitor" or LocalPlayer():GetDetective() and "Detective" or "Innocent"
+		CyberPunk.SetRadarState(name, color, Color(0, 0, 0), (12 / 768) * ScrH(), -2)
+	elseif engine.ActiveGamemode() == "darkrpbase" or engine.ActiveGamemode() == "darkrp" then
+		local job = isfunction(ply.GetJobName) and LocalPlayer():GetJobName() or isfunction(ply.GetJob) and LocalPlayer():GetJob() or isfunction(ply.GetDarkRPVar) and LocalPlayer():GetDarkRPVar("job") or LocalPlayer():getDarkRPVar("job")
+		local wanted = isfunction(ply.GetWanted) and LocalPlayer():GetWanted() or isfunction(ply.GetDarkRPVar) and LocalPlayer():GetDarkRPVar "wanted" or isfunction(ply.getDarkRPVar) and LocalPlayer():getDarkRPVar "wanted" or false
+		local sin = wanted and math.sin(CurTime()*2) * 100 or 0
+		local color = team.GetColor(LocalPlayer():Team())
+		CyberPunk.SetRadarState(job, Color(color.r+sin, color.g+sin, color.b+sin), Color(0, 0, 0), (12 / 768) * ScrH(), -2)
+	else
+		if GetConVar("cb_radartext"):GetString() != "" and CYBERPUNK_LASTDMG.time - CurTime() > 0 and CYBERPUNK_LASTDMG.shoot - CurTime() > 0 then
+			CyberPunk.SetRadarState("COMBAT", CyberPunk.GetColor(1), Color(0, 0, 0), (12 / 768) * ScrH(), -2)
+		elseif GetConVar("cb_radartext"):GetString() != "" then
+			CyberPunk.SetRadarState(GetConVar("cb_radartext"):GetString(), Color(GetConVar("cb_radarcolorr"):GetInt(), GetConVar("cb_radarcolorg"):GetInt(), GetConVar("cb_radarcolorb"):GetInt()), Color(GetConVar("cb_radarcolor1r"):GetInt(), GetConVar("cb_radarcolor1g"):GetInt(), GetConVar("cb_radarcolor1b"):GetInt()), GetConVar("cb_radartextsize"):GetInt(), -2)
+		end
 	end
 	if !GetConVar("cb_drawdead"):GetBool() and LocalPlayer():Alive() or GetConVar("cb_drawdead"):GetBool() then
 		local CYBERPUNKHEALBARHEALTH = CYBERPUNKHEALBARHEALTH or LocalPlayer():Health()
@@ -105,15 +153,21 @@ hook.Add("HUDPaint", "CyberPunkPaint", function()
 		CyberPunk.DrawStaminaBar(LocalPlayer():GetSuitPower() / 100, CYBERPUNK_SUITPOWER)
 		CyberPunk.DrawEXPBar(LocalPlayer():Armor() / LocalPlayer():GetMaxArmor())
 		CyberPunk.DrawStaminaInfo(true, "STAMINA", CYBERPUNK_SUITPOWER)
+		if engine.ActiveGamemode() == "darkrpbase" or engine.ActiveGamemode() == "darkrp" then
+			local ply = FindMetaTable("Player")
+			local ply1 = LocalPlayer()
+			local hunger = isfunction(ply.GetHunger) and ply1:GetHunger() or isfunction(ply.GetEnergy) and ply1:GetEnergy() or isfunction(ply.GetDarkRPVar) and ply1:GetDarkRPVar "Energy" or ply1:getDarkRPVar "Energy"
+			if hunger then
+				CyberPunk.DrawAdditionalBar(10, hunger )
+			end
+		end
 		if LocalPlayer():GetActiveWeapon() != NULL then
-			--if LocalPlayer():GetActiveWeapon().DrawCrosshair then
-				-- Рисуем прицел
-		--		CyberPunk.DrawCrosshair()
-			--end
 			CyberPunk.DrawWeaponBar(LocalPlayer():GetActiveWeapon())
 			CyberPunk.DrawHealthBarPanel( LocalPlayer():GetAmmoCount( LocalPlayer():GetActiveWeapon():GetSecondaryAmmoType()) )
 			if LocalPlayer():GetActiveWeapon():GetMaxClip2() > 0 then
-				CyberPunk.DrawAdditionalBar(LocalPlayer():GetActiveWeapon():GetMaxClip2(), LocalPlayer():GetActiveWeapon():Clip2() / LocalPlayer():GetActiveWeapon():GetMaxClip2() )
+				if engine.ActiveGamemode() != "darkrpbase" or engine.ActiveGamemode() == "darkrp" then
+					CyberPunk.DrawAdditionalBar(LocalPlayer():GetActiveWeapon():GetMaxClip2(), LocalPlayer():GetActiveWeapon():Clip2() / LocalPlayer():GetActiveWeapon():GetMaxClip2() )
+				end
 			end
 			if GetConVar("cb_icon"):GetBool() then
 				CyberPunk.DrawIcon(LocalPlayer():GetActiveWeapon())

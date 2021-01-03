@@ -21,8 +21,10 @@ function CyberPunk.DrawEXPBar(percent) -- Рисовалка exp бара. Ту�
 		surface.DrawPoly(tab1)
 	render.SetStencilCompareFunction( STENCIL_EQUAL )
 	render.SetStencilFailOperation( STENCIL_KEEP )
-		local expcol = Color(108, 232, 242)
-		surface.SetDrawColor(124, 154, 148)
+		local wanted = isfunction(ply.GetWanted) and LocalPlayer():GetWanted() or isfunction(ply.GetDarkRPVar) and LocalPlayer():GetDarkRPVar "wanted" or isfunction(ply.getDarkRPVar) and LocalPlayer():getDarkRPVar "wanted" or false
+		local sin = wanted and math.sin(CurTime()*2) * 100 or 0
+		local expcol = CyberPunk.GetColor(2)
+		surface.SetDrawColor(124+sin, 154+sin, 148+sin)
 		surface.DrawRect(width(0.0527), 0, width(0.1391), height(0.55) )
 		surface.SetDrawColor(expcol.r, expcol.g, expcol.b)
 		surface.DrawRect(width(0.0527), 0, width(0.1391) * percent, height(0.55) )
@@ -66,7 +68,9 @@ function CyberPunk.DrawHealthBar(percent, percent1) -- Сам хил бар. С�
 end
 function CyberPunk.DrawHealthBarPanel(number) -- Левая панелька с фицеркой. В игре обозначает вроде уровень, в игре фраги (счет игрока)
 	draw.NoTexture()
-	local blue = Color(108, 232, 242)
+	local wanted = isfunction(ply.GetWanted) and LocalPlayer():GetWanted() or isfunction(ply.GetDarkRPVar) and LocalPlayer():GetDarkRPVar "wanted" or isfunction(ply.getDarkRPVar) and LocalPlayer():getDarkRPVar "wanted" or false
+	local sin = wanted and math.sin(CurTime()*2) * 100 or 0
+	local blue = CyberPunk.GetColor(2)
 	surface.SetDrawColor(blue.r, blue.g, blue.b)
 	surface.DrawLine(width(0.0344), height(0.03125), width(0.05051), height(0.03385) )
 	surface.DrawLine(width(0.05051), height(0.03385), width(0.05051), height(0.0638))
