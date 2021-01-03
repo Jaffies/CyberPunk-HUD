@@ -1,16 +1,17 @@
 CyberPunk = CyberPunk or {}
-function CyberPunk.DrawWeaponBar(weapon, icon)
+function CyberPunk.DrawWeaponBar(weapon)
+	if !IsValid(weapon) then return end
 	local ammo = LocalPlayer():GetAmmoCount(weapon:GetPrimaryAmmoType())
-	if weapon:GetMaxClip1() > 0 then
-		if weapon:Clip1() == -1 then -- Для ракет, гранат и тд
-			draw.SimpleText(string.format("%03d", math.min( 999, ammo) ), "Robotron" .. tostring(math.floor(height( 0.02604))), width(0.836749634), height(0.9309895), Color(107,194,197), TEXT_ALIGN_RIGHT)
-			draw.SimpleText(string.format("%03d", math.min( 999, ammo) ), "RobotronBlury" .. tostring(math.floor(height( 0.02604))), width(0.836749634), height(0.9309895), Color(107,194,197), TEXT_ALIGN_RIGHT)
-		else -- Для всего другого
-			draw.SimpleText(string.format("%03d", math.min( 999, weapon:Clip1()) ), "Robotron" .. tostring(math.floor(height( 0.02604))), width(0.836749634), height(0.9309895),Color(107,194,197), TEXT_ALIGN_RIGHT)
-			draw.SimpleText(string.format("%03d", math.min( 999, weapon:Clip1()) ), "RobotronBlury" .. tostring(math.floor(height( 0.02604))), width(0.836749634), height(0.9309895),Color(57,134,137), TEXT_ALIGN_RIGHT)
-			draw.SimpleText(string.format("%04d", math.min( 9999, ammo) ), "Robotron" .. tostring(math.floor(height(0.01953125))), width(0.8455344) , height( 0.9309895),Color(203,106,93))
-			draw.SimpleText(string.format("%04d", math.min( 9999, ammo) ), "RobotronBlury" .. tostring(math.floor(height(0.01953125))), width(0.8455344) , height( 0.9309895),Color(173,76,53))
-		end
+	local red = CyberPunk.GetColor(1)
+	local blue = CyberPunk.GetColor(2)
+	if weapon:Clip1() == -1 and weapon:HasAmmo() then -- Для ракет, гранат и тд
+		draw.SimpleText(string.format("%03d", math.min( 999, ammo) ), "Robotron" .. tostring(math.floor(height( 0.02604))), width(0.836749634), height(0.9309895), blue, TEXT_ALIGN_RIGHT)
+		draw.SimpleText(string.format("%03d", math.min( 999, ammo) ), "RobotronBlury" .. tostring(math.floor(height( 0.02604))), width(0.836749634), height(0.9309895), blue, TEXT_ALIGN_RIGHT)
+	elseif weapon:Clip1() > 0 then -- Для всего другого
+		draw.SimpleText(string.format("%03d", math.min( 999, weapon:Clip1()) ), "Robotron" .. tostring(math.floor(height( 0.02604))), width(0.836749634), height(0.9309895),blue, TEXT_ALIGN_RIGHT)
+		draw.SimpleText(string.format("%03d", math.min( 999, weapon:Clip1()) ), "RobotronBlury" .. tostring(math.floor(height( 0.02604))), width(0.836749634), height(0.9309895),blue, TEXT_ALIGN_RIGHT)
+		draw.SimpleText(string.format("%04d", math.min( 9999, ammo) ), "Robotron" .. tostring(math.floor(height(0.01953125))), width(0.8455344) , height( 0.9309895),red)
+		draw.SimpleText(string.format("%04d", math.min( 9999, ammo) ), "RobotronBlury" .. tostring(math.floor(height(0.01953125))), width(0.8455344) , height( 0.9309895),red)
 	end
 end
 function CyberPunk.DrawIcon(weapon) -- Позволяет получить иконку для выбора, или иконку для киллайкона или иконку из спавнменю.

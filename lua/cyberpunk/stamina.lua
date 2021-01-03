@@ -24,9 +24,10 @@ function CyberPunk.DrawStaminaBar(percent, alpha)
 		surface.DrawPoly(tab)
 	render.SetStencilCompareFunction( STENCIL_EQUAL )
 	render.SetStencilFailOperation( STENCIL_KEEP )
-		surface.SetDrawColor(113, 101, 95, alpha)
+		local ylw = CyberPunk.GetColor(3)
+		surface.SetDrawColor(ylw.r-122, ylw.g-95, ylw.b-34, alpha)
 		surface.DrawRect(width(0.39019), height(0.10677), width(0.146413), height(0.03))
-		surface.SetDrawColor(235, 196, 61, alpha)
+		surface.SetDrawColor(ylw.r, ylw.g, ylw.b, alpha)
 		surface.DrawRect(width(0.39019), height(0.10677), width(0.146413) * percent, height(0.03))
 	render.SetStencilEnable(false)
 end
@@ -48,12 +49,13 @@ function CyberPunk.DrawStaminaInfo(drawicon, text, alpha)
 		{x = width(0.549780), y = height(0.1158854)},
 	}
 	draw.NoTexture()
-	surface.SetDrawColor(235, 196, 61, alpha)
+	local ylw = CyberPunk.GetColor(3)
+	surface.SetDrawColor(ylw.r, ylw.g, ylw.b, alpha)
 	if drawicon then
 		surface.DrawPoly(tab1)
 		surface.DrawPoly(tab3)
 		surface.DrawPoly(tab2)
 	end
-	draw.SimpleText(text, "RobotronBlury" .. tostring(math.Round(height(0.0085))), width(0.563), height(0.116), Color( 175, 126, 11, alpha ), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-	draw.SimpleText(text, "Robotron" .. tostring(math.Round(height(0.0085))), width(0.563), height(0.116), Color( 235, 196, 61, alpha ), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+	draw.SimpleText(text, "RobotronBlury" .. tostring(math.Round(height(0.0085))), width(0.563), height(0.116), Color(ylw.r, ylw.g, ylw.b, alpha), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+	draw.SimpleText(text, "Robotron" .. tostring(math.Round(height(0.0085))), width(0.563), height(0.116), Color(ylw.r, ylw.g, ylw.b, alpha), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
 end

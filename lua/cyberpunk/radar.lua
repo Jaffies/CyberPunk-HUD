@@ -1,6 +1,8 @@
 CyberPunk = CyberPunk or {}
 CYBERPUNK_RADAR_STATE_PUBLIC = { state = "Public", color = Color(108, 232, 242), color1 = Color(0, 0, 0), size = 10, time = -1}
 CYBERPUNK_RADAR_STATE = {}
+local EyePos = function() return LocalPlayer():EyePos() end
+local EyeAngles = function() return LocalPlayer():EyeAngles() end
 function CyberPunk.SetRadarState(name, color, color1, size,  time)
 	if time == -1 then
 		CYBERPUNK_RADAR_STATE = { state = name, color = color, color1 = color1, size = size, time = -1}
@@ -84,7 +86,7 @@ function CyberPunk.DrawOldRadar(table1)
 	render.SetStencilCompareFunction( STENCIL_NOTEQUAL )
 	render.SetStencilFailOperation( STENCIL_KEEP )
 		surface.SetDrawColor(0, 25, 50, 210)
-		surface.DrawRect(width(0.827), height(0.00651), width(0.12), height(0.234375))
+		surface.DrawRect(width(0.827), height(0.00651), width(0.13), height(0.234375))
 		for k, v in pairs(tab) do
 			if v.type == "Landmark" then
 				CyberPunk.DrawLandMark(width(0.8874), height(0.1236975), v.angle, ( ScrH() / 768 ) * 6, v.dist / 8.5, v.color)
@@ -94,31 +96,31 @@ function CyberPunk.DrawOldRadar(table1)
 		end
 --		surface.SetDrawColor(50, 50, 255, 255)
 		if CYBERPUNK_RADAR_STATE.time == nil or CYBERPUNK_RADAR_STATE.time < CurTime() and CYBERPUNK_RADAR_STATE.time != -1 and CYBERPUNK_RADAR_STATE.time != -2 then
-			local size1 = ( #CYBERPUNK_RADAR_STATE_PUBLIC.state * (CYBERPUNK_RADAR_STATE_PUBLIC.size * 0.62) ) / ScrW()
-			local size2 =  CYBERPUNK_RADAR_STATE_PUBLIC.size / ScrH()
-			draw.RoundedBoxEx(math.max( size2 * ScrW(), size1 * ScrH() ), width(0.93 - size1), height(0.225 - size2), width(0.018604319 + size1), height(0.0200416 + size2), CYBERPUNK_RADAR_STATE_PUBLIC.color, true)
-			draw.SimpleText(CYBERPUNK_RADAR_STATE_PUBLIC.state, "RobotronBlury" .. tostring(CYBERPUNK_RADAR_STATE_PUBLIC.size), width(0.935 - size1), height(0.22884375 - size2), CYBERPUNK_RADAR_STATE_PUBLIC.color1)
-			draw.SimpleText(CYBERPUNK_RADAR_STATE_PUBLIC.state, "Robotron" .. tostring(CYBERPUNK_RADAR_STATE_PUBLIC.size), width(0.935 - size1), height(0.22884375 - size2), Color(CYBERPUNK_RADAR_STATE_PUBLIC.color1.r - 40, CYBERPUNK_RADAR_STATE_PUBLIC.color1.g - 40, CYBERPUNK_RADAR_STATE_PUBLIC.color1.b - 40, CYBERPUNK_RADAR_STATE_PUBLIC.color1.a))
+			surface.SetFont("Robotron" .. tostring(CYBERPUNK_RADAR_STATE_PUBLIC.size))
+			local size1, size2 = surface.GetTextSize(CYBERPUNK_RADAR_STATE_PUBLIC.state)
+			draw.RoundedBoxEx(math.max( size2, size1 ), width(0.93) - size1, height(0.225) -size2, width(0.018604319) +size1, height(0.0200416) + size2, CyberPunk.GetColor(1), true)
+			draw.SimpleText(CYBERPUNK_RADAR_STATE_PUBLIC.state, "Robotron" .. tostring(CYBERPUNK_RADAR_STATE_PUBLIC.size), width(0.935)  - size1, height(0.22884375)  - size2, CYBERPUNK_RADAR_STATE_PUBLIC.color1)
+			draw.SimpleText(CYBERPUNK_RADAR_STATE_PUBLIC.state, "RobotronBlury" .. tostring(CYBERPUNK_RADAR_STATE_PUBLIC.size), width(0.935)  - size1, height(0.22884375) - size2, Color(CYBERPUNK_RADAR_STATE_PUBLIC.color1.r - 40, CYBERPUNK_RADAR_STATE_PUBLIC.color1.g - 40, CYBERPUNK_RADAR_STATE_PUBLIC.color1.b - 40, CYBERPUNK_RADAR_STATE_PUBLIC.color1.a))
 		else
-			local size1 = ( #CYBERPUNK_RADAR_STATE.state * (CYBERPUNK_RADAR_STATE.size * 0.62) ) / ScrW()
-			local size2 =  CYBERPUNK_RADAR_STATE.size / ScrH()
-			draw.RoundedBoxEx(math.max( size2 * ScrW(), size1 * ScrH() ), width(0.93 - size1), height(0.225 - size2), width(0.018604319 + size1), height(0.0200416 + size2), CYBERPUNK_RADAR_STATE.color, true)
-			draw.SimpleText(CYBERPUNK_RADAR_STATE.state, "RobotronBlury" .. tostring(CYBERPUNK_RADAR_STATE.size), width(0.935 - size1), height(0.22884375 - size2), Color(CYBERPUNK_RADAR_STATE.color1.r - 40, CYBERPUNK_RADAR_STATE.color1.g - 40, CYBERPUNK_RADAR_STATE.color1.b - 40, CYBERPUNK_RADAR_STATE.color1.a))
-			draw.SimpleText(CYBERPUNK_RADAR_STATE.state, "Robotron" .. tostring(CYBERPUNK_RADAR_STATE.size), width(0.935 - size1), height(0.22884375 - size2), CYBERPUNK_RADAR_STATE.color1)
+			local size1, size2 = surface.GetTextSize(CYBERPUNK_RADAR_STATE_PUBLIC.state)
+			draw.RoundedBoxEx(math.max( size2, size1 ), width(0.93)- size1, height(0.225) - size2, width(0.018604319) + size1, height(0.0200416) + size2, CYBERPUNK_RADAR_STATE.color, true)
+			draw.SimpleText(CYBERPUNK_RADAR_STATE.state, "RobotronBlury" .. tostring(CYBERPUNK_RADAR_STATE.size), width(0.935) - size1, height(0.22884375) - size2, Color(CYBERPUNK_RADAR_STATE.color1.r - 40, CYBERPUNK_RADAR_STATE.color1.g - 40, CYBERPUNK_RADAR_STATE.color1.b - 40, CYBERPUNK_RADAR_STATE.color1.a))
+			draw.SimpleText(CYBERPUNK_RADAR_STATE.state, "Robotron" .. tostring(CYBERPUNK_RADAR_STATE.size), width(0.935) - size1, height(0.22884375) - size2, CYBERPUNK_RADAR_STATE.color1)
 			if CYBERPUNK_RADAR_STATE.time == -2 then CYBERPUNK_RADAR_STATE = {} end
 		end
-		local booln = LocalPlayer():EyePos() == EyePos()
-		local plyangle = booln and 0 or ( LocalPlayer():EyePos() - EyePos() ):Angle().y - EyeAngles().y
+		local booln = LocalPlayer():GetPos() + Vector(0, 0, 64) == EyePos()
+		local plyangle = booln and 0 or ( LocalPlayer():GetPos() - EyePos() ):Angle().y - EyeAngles().y
 		local plyselfangle = booln and 0 or LocalPlayer():GetAngles().y - EyeAngles().y
 		local plydist = math.Distance(LocalPlayer():GetPos().x, LocalPlayer():GetPos().y, EyePos().x, EyePos().y) / 8.5
-		CyberPunk.DrawCursor(width(0.8874) - math.sin(math.rad(plyangle)) * plydist, height(0.1236975) - math.cos(math.rad(plyangle)) * plydist , plyselfangle, ( ScrH() / 768 ) * 7, CYBERPUNK_RADAR_STATE_PUBLIC.color)
-		surface.DrawCircle(width(0.932), height(0.038), width(0.013), 177, 106, 115, 200)
-		draw.RoundedBox(50, width(0.932) - width(0.004) /2 , height(0.038) - height(0.007) / 2, width(0.004), height(0.007), Color(177, 106, 115, 200))
-		CyberPunk.DrawCursor(width(0.932) - math.sin(math.rad( EyeAngles().y) ) * ( ( ScrW() / 1366 ) * 8 ), height(0.038) - math.cos(math.rad( EyeAngles().y) ) * ( ( ScrH() / 768 ) * 8 ), EyeAngles().y, ( ScrH() / 768 ) * 5,  Color(177, 106, 115, 200))
+		local blue = CyberPunk.GetColor(1) -- Actually its red.....
+		CyberPunk.DrawCursor(width(0.8874) - math.sin(math.rad(plyangle)) * plydist, height(0.1236975) - math.cos(math.rad(plyangle)) * plydist , plyselfangle, ( ScrH() / 768 ) * 7, CyberPunk.GetColor(2))
+		surface.DrawCircle(width(0.932), height(0.038), width(0.013), blue.r, blue.g, blue.b, 255)
+		draw.RoundedBox(50, width(0.932) - width(0.004) /2 , height(0.038) - height(0.007) / 2, width(0.004), height(0.007), CyberPunk.GetColor(2))
+		CyberPunk.DrawCursor(width(0.932) - math.sin(math.rad( EyeAngles().y) ) * ( ( ScrW() / 1366 ) * 8 ), height(0.038) - math.cos(math.rad( EyeAngles().y) ) * ( ( ScrH() / 768 ) * 8 ), EyeAngles().y, ( ScrH() / 768 ) * 5,  CyberPunk.GetColor(2))
 		render.SetStencilCompareFunction( STENCIL_ALWAYS )
 	render.SetStencilEnable( false )
-	draw.SimpleText(os.date("%I:%M %p", os.time()), "RobotronBlury" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541), Color(68, 92, 202))
-		draw.SimpleText(os.date("%I:%M %p", os.time()), "Robotron" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541), Color(108, 232, 242))
+	draw.SimpleText(os.date("%I:%M %p", os.time()), "RobotronBlury" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541), CyberPunk.GetColor(2))
+		draw.SimpleText(os.date("%I:%M %p", os.time()), "Robotron" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541), CyberPunk.GetColor(2))
 end
 function CyberPunk.DrawRadar(table1)
 	local tab = table1 or {}
@@ -191,7 +193,7 @@ function CyberPunk.DrawRadar(table1)
 	render.SetStencilCompareFunction( STENCIL_NOTEQUAL )
 	render.SetStencilFailOperation( STENCIL_KEEP )
 		surface.SetDrawColor(0, 25, 50, 210)
-		surface.DrawRect(width(0.827), height(0.00651 + 0.0325), width(0.12), height(0.234375 + 0.0325))
+		surface.DrawRect(width(0.827), height(0.00651 + 0.0325), width(0.13), height(0.234375 + 0.0325))
 		for k, v in pairs(tab) do
 			if v.type == "Landmark" then
 				CyberPunk.DrawLandMark(width(0.8874), height(0.1236975 + 0.0325), v.angle, ( ScrH() / 768 ) * 6, v.dist / 8.5, v.color)
@@ -201,13 +203,13 @@ function CyberPunk.DrawRadar(table1)
 		end
 --		surface.SetDrawColor(50, 50, 255, 255)
 		if CYBERPUNK_RADAR_STATE.time != nil and CYBERPUNK_RADAR_STATE.time > CurTime() or CYBERPUNK_RADAR_STATE.time != nil and CYBERPUNK_RADAR_STATE.time == -1 or CYBERPUNK_RADAR_STATE.time != nil and CYBERPUNK_RADAR_STATE.time == -2 then
-			local size1 = ( #CYBERPUNK_RADAR_STATE.state * (CYBERPUNK_RADAR_STATE.size * 0.62) ) / ScrW()
-			local size2 =  CYBERPUNK_RADAR_STATE.size / ScrH()
+			surface.SetFont("Robotron" .. tostring(CYBERPUNK_RADAR_STATE_PUBLIC.size))
+			local size2 = select(2,surface.GetTextSize(CYBERPUNK_RADAR_STATE_PUBLIC.state))
 			local plazhkatab = {
-				{x = width(0.964128), y = height(0.255 - size2)},
+				{x = width(0.964128), y = height(0.255) - size2},
 				{x = width(0.964128), y = height(0.272135)},
 				{x = width(0.826), y = height(0.271)},
-				{x = width(0.826), y = height(0.265 - size2)},
+				{x = width(0.826), y = height(0.265) - size2},
 			}
 			surface.SetDrawColor(CYBERPUNK_RADAR_STATE.color.r, CYBERPUNK_RADAR_STATE.color.g, CYBERPUNK_RADAR_STATE.color.b)
 			draw.NoTexture()
@@ -216,24 +218,25 @@ function CyberPunk.DrawRadar(table1)
 			draw.SimpleText(CYBERPUNK_RADAR_STATE.state, "Robotron" .. tostring(CYBERPUNK_RADAR_STATE.size), width(0.8874), height(0.23 + 0.0325), CYBERPUNK_RADAR_STATE.color1, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
 			if CYBERPUNK_RADAR_STATE.time == -2 then CYBERPUNK_RADAR_STATE = {} end
 		end
-		local booln = LocalPlayer():EyePos() == EyePos()
-		local plyangle = booln and 0 or ( LocalPlayer():EyePos() - EyePos() ):Angle().y - EyeAngles().y
+		local booln = LocalPlayer():GetPos() + Vector(0, 0, 64) == EyePos()
+		local plyangle = booln and 0 or ( LocalPlayer():GetPos() + Vector(0, 0, 64) - EyePos() ):Angle().y - EyeAngles().y
 		local plyselfangle = booln and 0 or LocalPlayer():GetAngles().y - EyeAngles().y
 		local plydist = math.Distance(LocalPlayer():GetPos().x, LocalPlayer():GetPos().y, EyePos().x, EyePos().y) / 8.5
-		CyberPunk.DrawCursor(width(0.8874) - math.sin(math.rad(plyangle)) * plydist, height(0.1236975 + 0.0325) - math.cos(math.rad(plyangle)) * plydist , plyselfangle, ( ScrH() / 768 ) * 7, CYBERPUNK_RADAR_STATE_PUBLIC.color)
+		CyberPunk.DrawCursor(width(0.8874) - math.sin(math.rad(plyangle)) * plydist, height(0.1236975 + 0.0325) - math.cos(math.rad(plyangle)) * plydist , plyselfangle, ( ScrH() / 768 ) * 7, CyberPunk.GetColor(2))
 		-- Кружочек с говном, ставим на другое место.
 		render.SetStencilCompareFunction( STENCIL_ALWAYS )
 	render.SetStencilEnable( false )
-	draw.SimpleText(os.date("%I:%M %p", os.time()), "RobotronBlury" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541 + 0.0325), Color(68, 92, 202))
-		draw.SimpleText(os.date("%I:%M %p", os.time()), "Robotron" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541 + 0.0325), Color(108, 232, 242))
-		surface.DrawCircle(width(0.96), height(0.004 + 0.0325), width(0.01), 177, 106, 115, 200)
-		surface.DrawCircle(width(0.96), height(0.004 + 0.0325), width(0.009), 177, 106, 115, 200)
-		surface.DrawCircle(width(0.96), height(0.004 + 0.0325), width(0.0095), 177, 106, 115, 200)
-		draw.RoundedBox(50, width(.96) - width(0.003) /2 , height(0.004 + 0.0325) - height(0.006) / 2, width(0.003), height(0.006), Color(177, 106, 115, 200))
-		CyberPunk.DrawCursor(width(0.96) - math.sin(math.rad( EyeAngles().y) ) * ( ( ScrW() / 1366 ) * 6 ), height(0.004 + 0.0325) - math.cos(math.rad( EyeAngles().y) ) * ( ( ScrH() / 768 ) * 6 ), EyeAngles().y, ( ScrH() / 768 ) * 4,  Color(177, 106, 115, 200))
+	draw.SimpleText(os.date("%I:%M %p", os.time()), "RobotronBlury" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541 + 0.0325), CyberPunk.GetColor(2))
+		draw.SimpleText(os.date("%I:%M %p", os.time()), "Robotron" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541 + 0.0325), CyberPunk.GetColor(2))
+		local blue = CyberPunk.GetColor(1)
+		surface.DrawCircle(width(0.96), height(0.004 + 0.0325), width(0.01), blue.r, blue.g, blue.b, 255)
+		draw.RoundedBox(50, width(0.96) - width(0.003) /2 , height(0.004 + 0.0325) - height(0.006) / 2, width(0.003), height(0.006), CyberPunk.GetColor(1))
+		CyberPunk.DrawCursor(width(0.96) - math.sin(math.rad( EyeAngles().y) ) * ( ( ScrW() / 1366 ) * 6 ), height(0.004 + 0.0325) - math.cos(math.rad( EyeAngles().y) ) * ( ( ScrH() / 768 ) * 6 ), EyeAngles().y, ( ScrH() / 768 ) * 4,  CyberPunk.GetColor(1))
 end
 function CyberPunk.LandMarkConvert(tab1)
 	local tab = {}
+	local EyePos = function() return LocalPlayer():EyePos() end
+	local EyeAngles = function() return LocalPlayer():EyeAngles() end
 	for k, v in pairs(tab1) do
 		if k > 32 then break end
 		if v:GetClass() == "npc_turret_floor" and v:GetAngles()[3] > 60 then continue end

@@ -9,8 +9,7 @@ hook.Add("CreateMove", "CyberPunkMove", function(cmd)
 end)
 function CyberPunk.TranslateWeapons()
 	local table1 = LocalPlayer():GetWeapons()
-	table.sort( table1, function(a, b) return a:GetSlotPos() * a:GetSlot() < b:GetSlotPos() * b:GetSlot() end )
-	table.sort( table1, function(a, b) return a:GetSlot() < b:GetSlot() end )
+	table.sort( table1, function(a, b) return a:GetSlot() * 100000 + a:GetSlotPos() > b:GetSlot() * 100000 + b:GetSlotPos() end )
 	return table1
 end 
 function CyberPunk.WeaponsMove(bool, curpos, curpos1) -- ENUM'ки используем

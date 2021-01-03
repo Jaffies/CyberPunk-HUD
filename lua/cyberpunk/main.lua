@@ -4,6 +4,7 @@ CYBERPUNKHEALTH = 100
 CYBERPUNKHEALBARHEALTH = nil
 CYBERPUNKHEALBARHEALTHOLD = nil
 CYBERPUNK_SUITPOWER = 0
+CYBERPUNK_OPENED = false
 local disable = {
 	CHudAmmo = true,
 	CHudBattery = true,
@@ -17,6 +18,7 @@ local disable = {
 	CHudSuitPower = true
 }
 hook.Add("HUDShouldDraw", "CyberPunkShould", function(hud)
+	if !GetConVar("cb_enable"):GetBool() then return end
 	return hud == "CHudWeaponSelection" and GetConVar("cb_selection"):GetBool() or not disable[hud]
 end)
 hook.Add("DoAnimationEvent", "CyberPunkFire", function(ply, pos, ang, event, name)
@@ -27,6 +29,15 @@ end)
 hook.Add("DrawDeathNotice", "CyberPunkNotice", function()
 	return false
 end)
+function CyberPunk.GetColor(int)
+	if int == 1 then -- RED
+		return GetConVar("cb_johnny"):GetBool() and Color(234, 242, 114) or Color(237, 119, 90)
+	elseif int == 2 then -- BLUE
+		return GetConVar("cb_johnny"):GetBool() and Color(35, 87, 183) or Color(108, 232, 242)
+	elseif int == 3 then
+		return GetConVar("cb_johnny"):GetBool() and Color(146, 227, 213) or Color(235, 196, 61)
+	end
+end
 function height(y)
 	return ScrH() * y
 end
@@ -35,6 +46,7 @@ function width(x)
 end
 function ents.FindNpcs()
 	local tab = {}
+	local EyePos = function() return LocalPlayer():EyePos() end
 	for k, v in pairs(ents.GetAll()) do
 		if math.Dist(v:GetPos().x, v:GetPos().y, EyePos().x, EyePos().y) <= 1024 and v:IsNPC() or v:GetPos():DistToSqr(EyePos()) <= 1048576 and v:IsPlayer() and v != LocalPlayer() and v:Alive() or v:GetPos():DistToSqr(EyePos()) <= 1048576 and v:IsNextBot()  then
 			table.insert(tab, v)
@@ -65,11 +77,16 @@ hook.Add("Think", "CyberPunkThink", function()
 		CYBERPUNK_LASTDMG.shoot = math.max(CYBERPUNK_LASTDMG.shoot, 0)
 	end
 end)
+local sound = surface.PlaySound
+function surface.PlaySound(snd) -- Made for detecting venty's cyberhacks menu open
+	if snd == "venty/cyberact.mp3" then CYBERPUNK_OPENED = !CYBERPUNK_OPENED end
+	sound(snd)
+end
 hook.Add("HUDPaint", "CyberPunkPaint", function()
-	if !GetConVar("cb_enable"):GetBool() then return end
+	if !GetConVar("cb_enable"):GetBool() or CYBERPUNK_OPENED then return end
 	if #GetConVar("cb_radartext"):GetString() == 0 and CYBERPUNK_LASTDMG.time - CurTime() > 0 and CYBERPUNK_LASTDMG.shoot - CurTime() > 0 then
-		CyberPunk.SetRadarState("COMBAT", Color(245, 86, 83), Color(0, 0, 0), 11, -2)
-	elseif #GetConVar("cb_radartext"):GetString() > 0 then
+		CyberPunk.SetRadarState("COMBAT", CyberPunk.GetColor(1), Color(0, 0, 0), (12 / 768) * ScrH(), -2)
+	elseif GetConVar("cb_radartext"):GetString() != "" then
 		CyberPunk.SetRadarState(GetConVar("cb_radartext"):GetString(), Color(GetConVar("cb_radarcolorr"):GetInt(), GetConVar("cb_radarcolorg"):GetInt(), GetConVar("cb_radarcolorb"):GetInt()), Color(GetConVar("cb_radarcolor1r"):GetInt(), GetConVar("cb_radarcolor1g"):GetInt(), GetConVar("cb_radarcolor1b"):GetInt()), GetConVar("cb_radartextsize"):GetInt(), -2)
 	end
 	if !GetConVar("cb_drawdead"):GetBool() and LocalPlayer():Alive() or GetConVar("cb_drawdead"):GetBool() then
