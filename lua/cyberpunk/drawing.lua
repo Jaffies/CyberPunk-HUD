@@ -44,6 +44,7 @@ function CyberPunk.DrawLandMark(xx, yy, dir, size, size1, col)
 	draw.RoundedBox(size, xxx - size / 2, yyy - size / 2, size, size, col)
 end
 hook.Add("PostDrawOpaqueRenderables", "CyberPunkNicks", function()
+	if engine.ActiveGamemode() == "darkrpbase" or engine.ActiveGamemode() == "darkrp" then return end
 	local trace = LocalPlayer():GetEyeTrace()
 	if trace.Hit and IsValid(trace.Entity) and trace.Entity:IsPlayer() then
 		local ply = trace.Entity
