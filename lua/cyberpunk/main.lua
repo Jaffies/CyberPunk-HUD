@@ -117,12 +117,6 @@ function surface.PlaySound(snd) -- Made for detecting venty's cyberhacks menu op
 	if snd == "venty/cyberact.mp3" then CYBERPUNK_OPENED = !CYBERPUNK_OPENED end
 	sound(snd)
 end
-local bg_colors = { -- TTT support
-   noround = Color(100,100,100,200),
-   traitor = Color(200, 25, 25, 200),
-   innocent = Color(25, 200, 25, 200),
-   detective = Color(25, 25, 200, 200)
-};
 RunConsoleCommand("ttt_weaponswitcher_fast", 1)
 hook.Add("HUDPaint", "CyberPunkPaint", function()
 	local ply = FindMetaTable("Player")

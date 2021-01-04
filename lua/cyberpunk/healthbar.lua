@@ -21,6 +21,7 @@ function CyberPunk.DrawEXPBar(percent) -- Рисовалка exp бара. Ту�
 		surface.DrawPoly(tab1)
 	render.SetStencilCompareFunction( STENCIL_EQUAL )
 	render.SetStencilFailOperation( STENCIL_KEEP )
+		local ply = FindMetaTable("Player")
 		local wanted = isfunction(ply.GetWanted) and LocalPlayer():GetWanted() or isfunction(ply.GetDarkRPVar) and LocalPlayer():GetDarkRPVar "wanted" or isfunction(ply.getDarkRPVar) and LocalPlayer():getDarkRPVar "wanted" or false
 		local sin = wanted and math.sin(CurTime()*2) * 100 or 0
 		local expcol = CyberPunk.GetColor(2)
