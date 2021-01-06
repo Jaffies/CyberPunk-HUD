@@ -10,7 +10,6 @@ local disable = {
     ['CHudBattery'] =true,
     ['CHudSuitPower'] =true,
     ['CHudAmmo'] =true,
-    ['CHudChat'] =true,
     ['CHudSecondaryAmmo'] =true,
     ['DarkRP_LocalPlayerHUD'] =true,
     ['DarkRP_Hungermod'] =true,
@@ -24,6 +23,7 @@ local disable = {
 }
 hook.Add("HUDShouldDraw", "CyberPunkShould", function(hud)
 	if !GetConVar("cb_enable"):GetBool() then return end
+	if hud == "CHudGMod" then return end
 	return hud == "CHudWeaponSelection" and GetConVar("cb_selection"):GetBool() or not disable[hud]
 end)
 hook.Add("DoAnimationEvent", "CyberPunkFire", function(ply, pos, ang, event, name)

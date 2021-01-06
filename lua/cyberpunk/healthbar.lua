@@ -69,8 +69,6 @@ function CyberPunk.DrawHealthBar(percent, percent1) -- Сам хил бар. С�
 end
 function CyberPunk.DrawHealthBarPanel(number) -- Левая панелька с фицеркой. В игре обозначает вроде уровень, в игре фраги (счет игрока)
 	draw.NoTexture()
-	local wanted = isfunction(ply.GetWanted) and LocalPlayer():GetWanted() or isfunction(ply.GetDarkRPVar) and LocalPlayer():GetDarkRPVar "wanted" or isfunction(ply.getDarkRPVar) and LocalPlayer():getDarkRPVar "wanted" or false
-	local sin = wanted and math.sin(CurTime()*2) * 100 or 0
 	local blue = CyberPunk.GetColor(2)
 	surface.SetDrawColor(blue.r, blue.g, blue.b)
 	surface.DrawLine(width(0.0344), height(0.03125), width(0.05051), height(0.03385) )

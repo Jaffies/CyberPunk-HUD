@@ -126,8 +126,8 @@ function CyberPunk.DrawOldRadar(table1)
 	elseif engine.ActiveGamemode() == "darkrpbase" or engine.ActiveGamemode() == "darkrp" then
 		local ply = FindMetaTable "Player"
 		local money = isfunction(ply.GetMoney) and tostring(LocalPlayer():GetMoney()) or isfunction(ply.GetDarkRPVar) and tostring(LocalPlayer():GetDarkRPVar "money") or tostring(LocalPlayer():getDarkRPVar "money")
-		draw.SimpleText("$" .. money, "RobotronBlury" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541), CyberPunk.GetColor(2))
-		draw.SimpleText("$" .. money, "Robotron" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541), CyberPunk.GetColor(2))
+		draw.SimpleText("$ " .. money, "RobotronBlury" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541), CyberPunk.GetColor(2))
+		draw.SimpleText("$ " .. money, "Robotron" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541), CyberPunk.GetColor(2))
 	else
 		draw.SimpleText(os.date("%I:%M %p", os.time()), "RobotronBlury" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541), CyberPunk.GetColor(2))
 		draw.SimpleText(os.date("%I:%M %p", os.time()), "Robotron" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541), CyberPunk.GetColor(2))
@@ -243,8 +243,8 @@ function CyberPunk.DrawRadar(table1)
 	elseif engine.ActiveGamemode() == "darkrpbase" or engine.ActiveGamemode() == "darkrp" then
 		local ply = FindMetaTable "Player"
 		local money = isfunction(ply.GetMoney) and tostring(LocalPlayer():GetMoney()) or isfunction(ply.GetDarkRPVar) and tostring(LocalPlayer():GetDarkRPVar "money") or tostring(LocalPlayer():getDarkRPVar "money")
-		draw.SimpleText("$" .. money, "RobotronBlury" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541 + 0.0325), CyberPunk.GetColor(2))
-		draw.SimpleText("$" .. money, "Robotron" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541 + 0.0325), CyberPunk.GetColor(2))
+		draw.SimpleText("$ " .. money, "RobotronBlury" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541 + 0.0325), CyberPunk.GetColor(2))
+		draw.SimpleText("$ " .. money, "Robotron" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541 + 0.0325), CyberPunk.GetColor(2))
 	else
 		draw.SimpleText(os.date("%I:%M %p", os.time()), "RobotronBlury" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541 + 0.0325), CyberPunk.GetColor(2))
 		draw.SimpleText(os.date("%I:%M %p", os.time()), "Robotron" .. tostring(math.Round( height(0.0130208) )), width(0.8352855), height(0.24088541 + 0.0325), CyberPunk.GetColor(2))
