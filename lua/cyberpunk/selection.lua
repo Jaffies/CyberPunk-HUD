@@ -39,7 +39,7 @@ function CyberPunk.CreateIcon(weap)
 		local model = ClientsideModel(weapmodel) or weap
 		local maxs, mins = model:GetModelBounds()
 		local max, min =maxs:Length2D(), mins:Length2D()
-		local model = nil
+		if model != weap then model:Remove() end
 		local angle = math.abs(maxs[1])+math.abs(mins[1]) > math.abs(maxs[2])+math.abs(mins[2]) and Angle(0,90,0) or Angle(0,9,0)
 		render.OverrideAlphaWriteEnable( true, true )
 		render.SetWriteDepthToDestAlpha( true )
