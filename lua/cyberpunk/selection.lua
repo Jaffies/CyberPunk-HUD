@@ -33,7 +33,7 @@ hook.Add("Think", "CyberPunkWeapons", function()
 	end
 end)
 function CyberPunk.CreateIcon(weap)
-	local icon = GetRenderTarget(weap:GetClass(), 256, 256, true)
+	local icon = GetRenderTarget("CB/" .. weap:GetClass(), 256, 256, true)
 	local weapmodel = weap:GetModel()
 	render.PushRenderTarget(icon)
 		local model = ClientsideModel(weapmodel) or weap

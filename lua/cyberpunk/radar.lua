@@ -117,7 +117,7 @@ function CyberPunk.DrawOldRadar(table1)
 		CyberPunk.DrawCursor(width(0.8874) - math.sin(math.rad(plyangle)) * plydist, height(0.1236975) - math.cos(math.rad(plyangle)) * plydist , plyselfangle, ( ScrH() / 768 ) * 7, CyberPunk.GetColor(2))
 		surface.DrawCircle(width(0.932), height(0.038), width(0.013), blue.r, blue.g, blue.b, 255)
 		draw.RoundedBox(width(0.004), width(0.932) - width(0.004) /2 , height(0.038) - height(0.007) / 2, width(0.004), width(0.004), CyberPunk.GetColor(2))
-		CyberPunk.DrawCursor(width(0.932) - math.sin(math.rad( EyeAngles().y) ) * ( ( ScrW() / 1366 ) * 8 ), height(0.038) - math.cos(math.rad( EyeAngles().y) ) * ( ( ScrH() / 768 ) * 8 ), EyeAngles().y, ( ScrH() / 768 ) * 5,  CyberPunk.GetColor(2))
+		CyberPunk.DrawCursor(width(0.932) + math.sin(math.rad( EyeAngles().y) ) * ( ( ScrW() / 1366 ) * 8 ), height(0.038) - math.cos(math.rad( EyeAngles().y) ) * ( ( ScrH() / 768 ) * 8 ), -EyeAngles().y, ( ScrH() / 768 ) * 5,  CyberPunk.GetColor(2))
 		render.SetStencilCompareFunction( STENCIL_ALWAYS )
 	render.SetStencilEnable( false )
 	if engine.ActiveGamemode() == "terrortown" then
@@ -252,7 +252,7 @@ function CyberPunk.DrawRadar(table1)
 		local blue = CyberPunk.GetColor(1)
 		surface.DrawCircle(width(0.96), height(0.004 + 0.0325), width(0.01), blue.r, blue.g, blue.b, 255)
 		draw.RoundedBox(height(0.006), width(0.96) - width(0.003) /2 , height(0.004 + 0.0325) - height(0.006) / 2, height(0.006), height(0.006), CyberPunk.GetColor(2))
-		CyberPunk.DrawCursor(width(0.96) - math.sin(math.rad( EyeAngles().y) ) * ( ( ScrW() / 1366 ) * 6 ), height(0.004 + 0.0325) - math.cos(math.rad( EyeAngles().y) ) * ( ( ScrH() / 768 ) * 6 ), EyeAngles().y, ( ScrH() / 768 ) * 4,  CyberPunk.GetColor(2))
+		CyberPunk.DrawCursor(width(0.96) + math.sin(math.rad( EyeAngles().y) ) * ( ( ScrW() / 1366 ) * 6 ), height(0.004 + 0.0325) - math.cos(math.rad( EyeAngles().y) ) * ( ( ScrH() / 768 ) * 6 ), -EyeAngles().y, ( ScrH() / 768 ) * 4,  CyberPunk.GetColor(2))
 end
 function CyberPunk.LandMarkConvert(tab1)
 	local tab = {}
